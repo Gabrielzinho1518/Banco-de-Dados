@@ -1,0 +1,21 @@
+select funcionario.nome
+from empregado Gerente, empregado.Funcionario;
+where Gerente.nome like "%Mariel%".and;
+	Gerente.idEmpregado = Funcionario.idGerente;
+
+
+
+* select *
+from empregado;
+
+*select Funcionario.nome
+from empregado Gerente, empregado Funcionario
+where 	Gerente.nome like '%Mariel%';
+		Gerente.idEmpregado = Funcionario.idGerente;
+        
+        
+* select Departamento.nome
+from Empregado, Departamento
+where Empregado.nome like '%Mariel%' and
+	 Empregado.Departamento_idDepartamento = Departamento.idDepartamento.idDepartamento;
+     
