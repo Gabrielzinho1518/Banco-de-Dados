@@ -1,0 +1,33 @@
+*- sistema gerenciador de banco de dados:*
+Os SGBDs precisam ser capazes de alterar, editar, remover ou inserir dados nos bancos de dados, por isso são tão importantes no dia a dia de qualquer empresa. 
+Deve ter um sistema de segurança robusto, porque apenas os administradores do Banco de Dados podem acessar o banco.
+
+*- restrições em banco de dados:*
+Existem as Restrições de Integridade Referencial, Restrições de Chave Primária, Restrições de NOT NULL, Restrições de Check.
+NOT NULL: É uma regra que impede que valores nulos sejam inseridos em uma ou mais colunas dentro de uma tabela.
+ 
+*- modelo relacional:*
+O modelo relacional é o mais utilizado atualmente. Ele organiza os dados em tabelas, que podem ser relacionadas entre si, por meio de chaves primárias e estrangeiras.
+  
+*- modelagem conceitual:*
+Modelos conceituais de dados são construídos na primeira etapa do processo de modelagem de dados. 
+
+*- modelagem lógica:*
+A modelagem lógica é necessária para compilar os requisitos de negócio e representar os requisitos como um modelo.
+Está principalmente associada à coleta de necessidades de negócios, e não ao design do banco de dados.
+
+*- modelagem física:*
+A modelagem física lida com o design do banco de dados real com base nos requisitos reunidos durante a modelagem lógica do banco de dados.
+
+*- linguagem SQL:*
+O SQL é uma linguagem padrão estruturada para trabalhar com bancos de dados relacionais. Existem várias ferramentas para rodar, como o MySQL Workbench, Oracle, Microsoft SQL Server, entre outros.
+  
+*- Data Definition Language (DDL):*
+A Linguagem de Definição de Dados é usada para definir a estrutura e a organização dos dados no banco de dados. Isso inclui a criação, modificação e exclusão de tabelas, índices, visões, etc. Os principais comandos DDL incluem:
+
+*- Data Manipulation Language (DML):*
+Linguagem de Manipulação de Dados é usada para manipular os dados dentro das tabelas. Isso inclui operações como inserção, recuperação, atualização e exclusão de registross.
+
+*-Boas práticas em modelagem de banco de dados:*
+Chaves primárias e Estrangeiras, Segurança, Documentação, Backup, Padrões, Modelagem física e lógica. 
+
