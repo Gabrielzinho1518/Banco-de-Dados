@@ -1,0 +1,51 @@
+/* Lógico_1: */
+
+SHOW DATABASES;
+
+CREATE DATABASE  Dinossauro;
+
+/* Selecionar o banco de dados para uso */
+USE Dinossauro;
+
+CREATE TABLE Dinossauro (
+    idDinossauro INTEGER PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(255),
+    AnoDescoberta YEAR,
+    toneladas DECIMAL(10, 2)
+);
+
+CREATE TABLE Descobridor (
+
+    idDescobridor INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    data_nascimento DATE
+    
+);
+
+/* Criar a tabela Pais */
+CREATE TABLE Pais (
+    idPais INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255)
+);
+
+/* Criar a tabela Grupo */
+CREATE TABLE Grupo (
+    idGrupo INTEGER PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(255)
+);
+
+-- Criação da tabela Era
+CREATE TABLE Era (
+UPDATE Era
+SET AnoInl = 2010, AnoFim = 2014
+WHERE nome = 'cretácio'
+
+    idEra INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    inicio YEAR,
+    fim YEAR
+);
+
+INSERT INTO Era (nome, inicio, fim) VALUES
+('Era Jurássica', 201, 145);
+
