@@ -1,0 +1,78 @@
+
+SELECT * 
+FROM TRABALHA_EM
+WHERE Fcpf = '33344555587';
+
+-- JOIN
+DECLARE @cpf_funcionario VARCHAR(11)
+SET @cpf_funcionario = (SELECT F.cpf
+					   FROM FUNCIONARIO AS F
+					   WHERE Pnome = 'FERNANDO'); 
+SELECT F.*
+FROM FUNCIONARIO AS F, TRABALHA_EM as TE
+WHERE TE.Fcpf = F.cpf 
+AND TE.pnr IN (SELECT pnr
+			  FROM TRABALHA_EM
+			  WHERE Fcpf = '33344555587')
+AND TE.HORAS IN (SELECT HORAS
+			  FROM TRABALHA_EM
+			  WHERE Fcpf = '33344555587')
+AND F.cpf <> '33344555587'
+-- Aliases AS
+SELECT FUNCIONARIO.Pnome AS 'Nome', F.Unom AS 'Sobrenome'
+FROM FUNCIONARIO AS F;
+
+SELECT * 
+FROM FUNCIONARIO AS F, DEPARTAMENTO AS D 
+WHERE F.dnr = D.Dnumero 
+AND D.Dnome = 'Pesquisa';
+
+SELECT F.Pnome AS 'FUNCIONARIO', S.Pnome AS 'Supervisor'
+FROM FUNCIONARIO AS F, FUNCIONARIO AS S,  DEPARTAMENTO AS D
+WHERE F.cpf_SUPERVISOR = S.cpf;
+
+
+SELECT F.Pnome AS 'FUNCIONARIO', S.Pnome AS 'Supervisor'
+FROM FUNCIONARIO AS F
+JOIN FUNCIONARIO AS S
+ON F.CPF_SUPERVISOR = S.cpf;
+
+SELECT F.Pnome AS 'FUNCIONARIO', P.projeNome AS 'PROJETO'
+FROM FUNCIONARIO AS F
+INNER JOIN PROJETO AS P
+ON F.Dnr = P.Dnum
+AND P.projetoNome = 'ProdutoX';
+
+--JOIN 
+SELECT * 
+FROM PROJETO AS P
+JOIN DEPARTAMENTO AS D
+ON P.Dnum = D.Dnumero
+JOIN FUNCIONARIO AS F 
+ON D.cpf_gerente = F.cpf
+WHERE P.projlocal = 'Mauá';
+
+-- LEFT JOIN
+--LEFT JOIN Syntax
+--SELECT column_name(s)
+--FROM table1
+--LEFT JOIN table2
+--ON table1.column_name = table2.column_name;
+--Liste o último nome de TODOS os funcionários e o último nome dos respectivos gerentes, caso possuam
+
+SELECT F.Pnome, D.nome_dependente
+FROM FUNCIONARIO AS F
+LEFT JOIN DEPENDENTE AS D
+ON F.Pnome = D.fcpf
+WHERE D.nome_dependente IS NOT NULL;
+
+SELECT COUNT (F.cpf)
+FROM FUNCIONARIO AS F
+WHERE F.Endereco LIKE '%SP'
+GROUP BY F.Endereco;
+
+SELECT F.endereco
+FROM FUNCIONARIO AS F
+WHERE F.Endereco LIKE '%SP'
+GROUP BY F.Endereco
+HAVING COUNT (*) > 0;
