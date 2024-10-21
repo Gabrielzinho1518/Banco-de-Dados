@@ -159,7 +159,7 @@ INSERT INTO DEPENDENTE VALUES ('12345678966', 'Michael', 'M', '1988-01-04', 'Fil
 INSERT INTO DEPENDENTE VALUES ('12345678966', 'Alicia', 'F', '1988-12-30', 'Filha');
 INSERT INTO DEPENDENTE VALUES ('12345678966', 'Elizabeth', 'F', '1967-05-05', 'Esposa');
 
-/*
+
 -- Execute estes comando para a aula de IF/ELSE
 -- Adicionando a coluna Bonus
 ALTER TABLE FUNCIONARIO
@@ -178,10 +178,7 @@ VALUES
 ('Maria', 'C', 'Oliveira', '98765432300', '1978-09-17', 'Rua C, 789', 'F', 7500.00, '98765432200', 5, '2024-02-01', 1500.00),
 ('Paulo', 'D', 'Silva', '98765432400', '1982-11-05', 'Rua D, 101', 'M', 7000.00, '98765432300', 4, '2024-05-15', 500.00);
 
-
-*/
-
-CREATE TRIGGER TRG_AFTER_INSERT_FUNCIONARIO  
+--CREATE TRIGGER TRG_AFTER_INSERT_FUNCIONARIO  
 ON FUNCIONARIO
 AFTER INSERT  
 AS
@@ -191,12 +188,109 @@ INSERT FUNCIONARIO(Pnome, Unome, CPF)
 VALUES
 ('Rodrigo', 'Rossato','98765432121');
 
-CREATE TRIGGER olaDenovo
+--CREATE TRIGGER olaDenovo
 ON FUNCIONARIO
 INSTEAD OF INSERT
 AS
 PRINT 'Olá de novo! Não inserir o registro desta vez!';
 
-INSERT FUNCIONARIO (Pnome, Unome, cpf)
-VALUES 
-('Herryson', 'r');
+SELECT * FROM FUNCIONARIO;
+EXEC sp_helptrigger Funcionario;
+SELECT * FROM sys.triggers WHERE is_disabled = 0 OR is_enabled = 1;
+
+--CREATE TRIGGER TRG_AFTER_UPDATE_FUNCIONARIO
+ON FUNCIONARIO
+AFTER INSERT, UPDATE 
+AS 
+IF UPDATE(Pnome)
+	PRINT 'O nome foi alterado'
+ELSE 
+	PRINT 'O Nome não foi alterado'
+INSERT INTO FUNCIONARIO(Pnome, Unome, CPF)
+values('Ernesto', 'Rossato','98765436121');
+
+UPDATE FUNCIONARIO
+SET PNOME = 'Ronaldinho'
+WHERE CPF = '98765432121';
+
+select * from FUNCIONARIO;
+
+--CREATE TRIGGER trg_prevent_duplicate_name
+BEFORE INSERT ON FUNCIONARIO
+FOR EACH ROW
+BEGIN
+    DECLARE duplicate_count INT;
+    SELECT COUNT(*) INTO duplicate_count
+    FROM FUNCIONARIO
+    WHERE nome_completo = NEW.nome_completo;
+
+    IF duplicate_count > 0 THEN
+       PRINT = 'Erro: Já existe um funcionário com o mesmo nome completo.';
+	END IF;
+END;
+--CREATE TRIGGER trg_log_insert_funcionario
+ON FUNCIONARIO
+AFTER INSERT 
+AS 
+BEGIN
+	INSERT INTO log_funcionario (cpf,Operação)
+	SELECT CPF, ''
+	FROM inserted
+END;
+
+	SELECT @Pnome = I.Pnome, @Minicial = I.MINICIAL, @UNOME = I.UNOME
+	FROM inserted AS I;
+	IF EXISTS ( 
+		SELECT 1 
+		FROM FUNCIONARIO
+		WHERE Pnome = @Pnome AND Unome = @Unome AND MINICIAL = @MINICIAL 
+	)
+	BEGIN
+		PRINT 'Já existe funcionario com este nome completo:' +@Pnome+@MINICIAL+@Unome 
+	END
+	ELSE 
+	BEGIN 
+	PRINT 'Novo registro'
+INSERT INTO FUNCIONARIO (Pnome, Unome, minicial, cpf)
+VALUES  ('Gertulio', 'S', 'Figueira', '99123678');
+END;
+
+SELECT * FROM FUNCIONARIO;
+
+CREATE TRIGGER trg_check_salary_before_update
+ON FUNCIONARIO
+INSTEAD OF UPDATE
+AS
+BEGIN
+-- Atualização 
+    UPDATE FUNCIONARIO
+    SET salario = i.salario
+    FROM inserted i
+    WHERE i.salario >= 1000.00 AND FUNCIONARIO.id = i.id; 
+
+    IF EXISTS (SELECT * FROM inserted WHERE salario < 1000.00)
+    BEGIN
+        PRINT ('Erro: O salário não pode ser inferior a R$ 1.000,00.', 16, 1);
+    END
+END;
+
+CREATE TRIGGER trg_instead_of_insert_funcionario
+ON FUNCIONARIO
+INSTEAD OF INSERT 
+AS 
+BEGIN
+	DECLARE @Salario = DECIMAL (10,2);
+	IF @SALARIO >= 1000.00
+	BEGIN 
+		INSERT INTO FUNCIONARIO (CPF, UNOME, PNOME, SALARIO)
+		SELECT I.CPF, I.PNOME, I.SALARIO, I.UNOME
+		FROM INSERTED AS I
+	END 
+	ELSE 
+	BEGIN
+		RAISERROR:('O SALÁRIO NÃO PODE SER MENOR QUE R$ 1.000,00',16,1)
+	END
+END
+
+INSERT INTO FUNCIONARIO (Pnome, Unome, minicial, cpf)
+VALUES  ('Gertulio', 'S', 'Figueira', '99123678');
